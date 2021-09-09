@@ -1,6 +1,6 @@
 {
     "name": "djs-embed-builder",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "A discord.js interactive embed builder for slash commands.",
     "main": "index.js",
     "scripts": {
@@ -15,5 +15,14 @@
     "license": "MIT",
     "dependencies": {
         "discord.js": "^13.1.0"
-    }
+    },
+    "devDependencies": {},
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/braxtongpoll/djs-embed-builder.git"
+    },
+    "bugs": {
+        "url": "https://github.com/braxtongpoll/djs-embed-builder/issues"
+    },
+    "homepage": "https://github.com/braxtongpoll/djs-embed-builder#readme"
 }
