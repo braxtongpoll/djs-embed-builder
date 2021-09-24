@@ -21,7 +21,7 @@ client.on("interactionCreate", (interaction) => {
 * [Discord.js@13.1.0](https://npmjs.com/package/discord.js)
 
 ## Examples
-To see examples go to [examples.js](https://github.com/braxtongpoll/better-djs/blob/main/src/examples.js)
+To see examples go to [examples.js](https://github.com/braxtongpoll/djs-embed-builder/blob/main/src/examples.js)
 
 It's about 120% easy to use though.
 
