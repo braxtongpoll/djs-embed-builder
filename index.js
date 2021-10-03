@@ -1,14 +1,14 @@
 const discord_permission = ["CREATE_INSTANT_INVITE", "KICK_MEMBERS", "BAN_MEMBERS", "ADMINISTRATOR", "MANAGE_CHANNELS", "MANAGE_GUILD", "ADD_REACTIONS", "VIEW_AUDIT_LOG", "PRIORITY_SPEAKER", "STREAM", "VIEW_CHANNEL", "SEND_MESSAGES", "SEND_TTS_MESSAGES", "MANAGE_MESSAGES", "EMBED_LINKS", "ATTACH_FILES", "READ_MESSAGE_HISTORY", "MENTION_EVERYONE", "USE_EXTERNAL_EMOJIS", "VIEW_GUILD_INSIGHTS", "CONNECT", "SPEAK", "MUTE_MEMBERS", "DEAFEN_MEMBERS", "MOVE_MEMBERS", "USE_VAD", "CHANGE_NICKNAME", "MANAGE_NICKNAMES", "MANAGE_ROLES", "MANAGE_WEBHOOKS", "MANAGE_EMOJIS", "NONE"];
-const { MessageButton, MessageActionRow } = require("discord.js");
+const { MessageButton, MessageActionRow, MessageEmbed } = require("discord.js");
 class betterDJS {
     constructor(client) {
         this.client = client;
     };
     async createEmbed(interaction) {
+        let bool = 1;
         let embed = new MessageEmbed()
             .setAuthor("Embed Builder")
             .setDescription("Welcome to the interactive embed builder. Use the buttons below to build the embed, after click post!")
-            .setFooter(interaction.member.guild.name)
         let row1 = new MessageActionRow().addComponents(
             new MessageButton()
             .setCustomId("author")
@@ -86,6 +86,11 @@ class betterDJS {
         let channel = interaction.channel;
         let back;
         collecter.on("collect", async function(click) {
+            if (bool == 1) {
+                embed.description = null,
+                    embed.author = null;
+                bool = 0;
+            }
             if (click.customId == "author") {
                 click.update({ content: "What would you like to set the author text to?", components: [] });
                 let response = await waitResponse(interaction.channel, wordFilter);
