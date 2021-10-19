@@ -120,7 +120,7 @@ class betterDJS {
                 click.update({ content: "What would you like to set the footer text to?", components: [] });
                 let response = await waitResponse(interaction.channel, wordFilter);
                 if (!response) return returnHome(interaction, buttons);
-                try { embed.setFooter(response.content || " ", embed.footer.iconURL || null); } catch (e) { console.log(e.stack) };
+                try { embed.setFooter(response.content || " ", embed.footer?.iconURL); } catch (e) { console.log(e.stack) };
                 click.editReply({ embeds: [embed], content: " ", components: buttons });
             } else if (click.customId == "authorimage" + id) {
                 click.update({ content: "What would you like to set the author image to?", components: [] });
