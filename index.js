@@ -1,4 +1,3 @@
-const discord_permission = ["CREATE_INSTANT_INVITE", "KICK_MEMBERS", "BAN_MEMBERS", "ADMINISTRATOR", "MANAGE_CHANNELS", "MANAGE_GUILD", "ADD_REACTIONS", "VIEW_AUDIT_LOG", "PRIORITY_SPEAKER", "STREAM", "VIEW_CHANNEL", "SEND_MESSAGES", "SEND_TTS_MESSAGES", "MANAGE_MESSAGES", "EMBED_LINKS", "ATTACH_FILES", "READ_MESSAGE_HISTORY", "MENTION_EVERYONE", "USE_EXTERNAL_EMOJIS", "VIEW_GUILD_INSIGHTS", "CONNECT", "SPEAK", "MUTE_MEMBERS", "DEAFEN_MEMBERS", "MOVE_MEMBERS", "USE_VAD", "CHANGE_NICKNAME", "MANAGE_NICKNAMES", "MANAGE_ROLES", "MANAGE_WEBHOOKS", "MANAGE_EMOJIS", "NONE"];
 const { MessageButton, MessageActionRow, MessageEmbed } = require("discord.js");
 class betterDJS {
     constructor(client) {
@@ -87,9 +86,9 @@ class betterDJS {
         let channel = interaction.channel;
         let back;
         collecter.on("collect", async function(click) {
-            if (bool == 1) {
+            if (bool == 1 && ["author", "description"].includes(click.customId)) {
                 embed.description = "",
-                    embed.author = "";
+                embed.author = "";
                 bool = 0;
             };
             if (click.customId == "author" + id) {
@@ -173,11 +172,11 @@ class betterDJS {
             } else if (click.customId == "fields" + id) {
                 let fieldButtons = await getFieldButtons(embed.fields, id);
                 if (fieldButtons.length) {
-                    fieldButtons[fieldButtons.length - 1].components.push(new MessageButton().setCustomId("go-back").setStyle("SUCCESS").setLabel("Go Back"));
-                    fieldButtons[fieldButtons.length - 1].components.push(new MessageButton().setCustomId("create-new").setStyle("SUCCESS").setLabel("New Field"));
+                    fieldButtons[fieldButtons.length - 1].components.push(new MessageButton().setCustomId("go-back" + id).setStyle("SUCCESS").setLabel("Go Back"));
+                    fieldButtons[fieldButtons.length - 1].components.push(new MessageButton().setCustomId("create-new" + id).setStyle("SUCCESS").setLabel("New Field"));
                 } else {
-                    fieldButtons[0] = new MessageActionRow().addComponents(new MessageButton().setCustomId("create-new").setStyle("SUCCESS").setLabel("New Field")).addComponents(new MessageButton().setCustomId("go-back").setStyle("SUCCESS").setLabel("Go Back"));
-                }
+                    fieldButtons[0] = new MessageActionRow().addComponents(new MessageButton().setCustomId("create-new" + id).setStyle("SUCCESS").setLabel("New Field")).addComponents(new MessageButton().setCustomId("go-back" + id).setStyle("SUCCESS").setLabel("Go Back"));
+                };
                 click.update({ components: fieldButtons });
                 back = "home";
             } else if (click.customId == "create-new" + id) {
@@ -190,11 +189,11 @@ class betterDJS {
                 embed.addField(name.content, value.content);
                 let fieldButtons = await getFieldButtons(embed.fields, id);
                 if (fieldButtons.length) {
-                    fieldButtons[fieldButtons.length - 1].components.push(new MessageButton().setCustomId("go-back").setStyle("SUCCESS").setLabel("Go Back"));
-                    fieldButtons[fieldButtons.length - 1].components.push(new MessageButton().setCustomId("create-new").setStyle("SUCCESS").setLabel("New Field"));
+                    fieldButtons[fieldButtons.length - 1].components.push(new MessageButton().setCustomId("go-back" + id).setStyle("SUCCESS").setLabel("Go Back"));
+                    fieldButtons[fieldButtons.length - 1].components.push(new MessageButton().setCustomId("create-new" + id).setStyle("SUCCESS").setLabel("New Field"));
                 } else {
-                    fieldButtons[0] = new MessageActionRow().addComponents(new MessageButton().setCustomId("create-new").setStyle("SUCCESS").setLabel("New Field")).addComponents(new MessageButton().setCustomId("go-back").setStyle("SUCCESS").setLabel("Go Back"));
-                }
+                    fieldButtons[0] = new MessageActionRow().addComponents(new MessageButton().setCustomId("create-new" + id).setStyle("SUCCESS").setLabel("New Field")).addComponents(new MessageButton().setCustomId("go-back" + id).setStyle("SUCCESS").setLabel("Go Back"));
+                };
                 click.editReply({ content: " ", embeds: [embed], components: fieldButtons });
                 back = "home";
             } else if (click.customId == "go-back" + id) {
@@ -205,10 +204,10 @@ class betterDJS {
                     case "fields":
                         let fieldButtons = await getFieldButtons(embed.fields);
                         if (fieldButtons.length) {
-                            fieldButtons[fieldButtons.length - 1].components.push(new MessageButton().setCustomId("go-back").setStyle("SUCCESS").setLabel("Go Back"));
-                            fieldButtons[fieldButtons.length - 1].components.push(new MessageButton().setCustomId("create-new").setStyle("SUCCESS").setLabel("New Field"));
+                            fieldButtons[fieldButtons.length - 1].components.push(new MessageButton().setCustomId("go-back" + id).setStyle("SUCCESS").setLabel("Go Back"));
+                            fieldButtons[fieldButtons.length - 1].components.push(new MessageButton().setCustomId("create-new" + id).setStyle("SUCCESS").setLabel("New Field"));
                         } else {
-                            fieldButtons[0] = new MessageActionRow().addComponents(new MessageButton().setCustomId("create-new").setStyle("SUCCESS").setLabel("New Field")).addComponents(new MessageButton().setCustomId("go-back").setStyle("SUCCESS").setLabel("Go Back"));
+                            fieldButtons[0] = new MessageActionRow().addComponents(new MessageButton().setCustomId("create-new" + id).setStyle("SUCCESS").setLabel("New Field")).addComponents(new MessageButton().setCustomId("go-back" + id).setStyle("SUCCESS").setLabel("Go Back"));
                         }
                         click.update({ components: fieldButtons });
                         back = "home";
@@ -218,33 +217,33 @@ class betterDJS {
                 field = Number(click.customId.split("-")[2]);
                 let edits = new MessageActionRow().addComponents(
                     new MessageButton()
-                    .setCustomId("field-name" + id)
+                    .setCustomId("field-name-" + id)
                     .setLabel("Field Name: " + embed.fields[field].name)
                     .setStyle("SECONDARY")
                 ).addComponents(
                     new MessageButton()
-                    .setCustomId("field-value" + id)
+                    .setCustomId("field-value-" + id)
                     .setLabel("Field Value")
                     .setStyle("SECONDARY")
                 )
                 if (embed.fields[field].inline == true) {
                     edits.addComponents(
                         new MessageButton()
-                        .setCustomId("field-inline" + id)
+                        .setCustomId("field-inline-" + id)
                         .setLabel("Field Inline")
                         .setStyle("SUCCESS")
                     )
                 } else {
                     edits.addComponents(
                         new MessageButton()
-                        .setCustomId("field-inline" + id)
+                        .setCustomId("field-inline-" + id)
                         .setLabel("Field Inline")
                         .setStyle("DANGER")
                     )
                 };
                 click.update({ components: [edits, new MessageActionRow().addComponents(new MessageButton().setCustomId("go-back").setStyle("SUCCESS").setLabel("Go Back"))] })
                 back = "fields";
-            } else if (click.customId.startsWith("field-") && check.customId.endsWith(id)) {
+            } else if (click.customId.startsWith("field-") && click.customId.endsWith(id)) {
                 let check = click.customId.split("-")[1];
                 let backup = click.message.components;
                 if (check == "name") {
