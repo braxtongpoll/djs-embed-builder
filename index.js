@@ -68,6 +68,11 @@ class betterDJS {
             .setLabel("Embed Fields")
         ).addComponents(
             new MessageButton()
+            .setCustomId("timestamp" + id)
+            .setStyle("SECONDARY")
+            .setLabel("Add Timestamp")
+        ).addComponents(
+            new MessageButton()
             .setCustomId("channel" + id)
             .setStyle("PRIMARY")
             .setLabel("Channel to Post")
@@ -97,6 +102,9 @@ class betterDJS {
                 if (!response) return returnHome(interaction, buttons);
                 try { embed.setAuthor(response.content, embed.author.iconURL || null); } catch {};
                 click.editReply({ embeds: [embed], content: " ", components: buttons });
+            } else if (click.customId == "timestamp" + id) {
+                try { embed.setTimestamp(); } catch {};
+                click.update({ embeds: [embed], content: " ", components: buttons });
             } else if (click.customId == "title" + id) {
                 click.update({ content: "What would you like to set the title text to?", components: [] });
                 let response = await waitResponse(interaction.channel, wordFilter);
