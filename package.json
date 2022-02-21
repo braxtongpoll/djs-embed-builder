@@ -1,6 +1,6 @@
 {
     "name": "djs-embed-builder",
-    "version": "1.1.6",
+    "version": "1.1.7",
     "description": "A discord.js interactive embed builder for slash commands.",
     "main": "index.js",
     "scripts": {

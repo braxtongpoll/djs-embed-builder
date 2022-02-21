@@ -91,9 +91,9 @@ class betterDJS {
         let channel = interaction.channel;
         let back;
         collecter.on("collect", async function(click) {
-            if (bool == 1 && ["author", "description"].includes(click.customId)) {
-                embed.description = "",
-                embed.author = "";
+            if (bool == 1) {
+                embed.description = null,
+                embed.author.name = null;
                 bool = 0;
             };
             if (click.customId == "author" + id) {
