@@ -6,7 +6,7 @@ class betterDJS {
     async createEmbed(interaction) {
         let bool = 1;
         let embed = new MessageEmbed()
-            .setAuthor("Embed Builder")
+            .setAuthor({ name: "Embed Builder" })
             .setDescription("Welcome to the interactive embed builder. Use the buttons below to build the embed, after click post!")
         let id = new Date().getTime();
         let row1 = new MessageActionRow().addComponents(
@@ -100,7 +100,7 @@ class betterDJS {
                 click.update({ content: "What would you like to set the author text to?", components: [] });
                 let response = await waitResponse(interaction.channel, wordFilter);
                 if (!response) return returnHome(interaction, buttons);
-                try { embed.setAuthor(response.content, embed.author.iconURL || null); } catch {};
+                try { embed.setAuthor({ name: response.content, iconURL: embed.author.iconURL || null }); } catch {};
                 click.editReply({ embeds: [embed], content: " ", components: buttons });
             } else if (click.customId == "timestamp" + id) {
                 try { embed.setTimestamp(); } catch {};
@@ -127,13 +127,13 @@ class betterDJS {
                 click.update({ content: "What would you like to set the footer text to?", components: [] });
                 let response = await waitResponse(interaction.channel, wordFilter);
                 if (!response) return returnHome(interaction, buttons);
-                try { embed.setFooter(response.content || " ", embed.footer?.iconURL); } catch (e) { console.log(e.stack) };
+                try { embed.setFooter({ text: response.content || " ", iconURL: embed.footer?.iconURL }); } catch (e) { console.log(e.stack) };
                 click.editReply({ embeds: [embed], content: " ", components: buttons });
             } else if (click.customId == "authorimage" + id) {
                 click.update({ content: "What would you like to set the author image to?", components: [] });
                 let response = await waitResponse(interaction.channel, wordFilter);
                 if (!response) return returnHome(interaction, buttons);
-                try { embed.setAuthor(embed.author.name, response.content || response.attachments.first().url); } catch {};
+                try { embed.setAuthor({ name: embed.author.name, iconURL: response.content || response.attachments.first().url }) } catch {};
                 click.editReply({ embeds: [embed], content: " ", components: buttons });
             } else if (click.customId == "color" + id) {
                 click.update({ content: "What color would you like to set the embed to?", components: [] });
@@ -157,7 +157,7 @@ class betterDJS {
                 click.update({ content: "What would you like to set the footer image to?", components: [] });
                 let response = await waitResponse(interaction.channel, wordFilter);
                 if (!response) return returnHome(interaction, buttons);
-                try { embed.setFooter(embed.footer.text || " ", response.content || response.attachments.first().url); } catch {};
+                try { embed.setFooter({ text: embed.footer.text || " ", iconURL: response.content || response.attachments.first().url }); } catch {};
                 click.editReply({ embeds: [embed], content: " ", components: buttons });
             } else if (click.customId == "channel" + id) {
                 click.update({ content: "What channel would you like to post this to?", components: [] });
