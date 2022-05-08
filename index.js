@@ -8,6 +8,7 @@ class betterDJS {
         let embed = new MessageEmbed()
             .setAuthor({ name: "Embed Builder" })
             .setDescription("Welcome to the interactive embed builder. Use the buttons below to build the embed, after click post!")
+        let messageContent = null;
         let id = new Date().getTime();
         let row1 = new MessageActionRow().addComponents(
             new MessageButton()
@@ -68,6 +69,11 @@ class betterDJS {
             .setLabel("Embed Fields")
         ).addComponents(
             new MessageButton()
+            .setCustomId(`messagecontent` + id)
+            .setStyle("SECONDARY")
+            .setLabel("Add message content")
+        ).addComponents(
+            new MessageButton()
             .setCustomId("timestamp" + id)
             .setStyle("SECONDARY")
             .setLabel("Add Timestamp")
@@ -96,7 +102,13 @@ class betterDJS {
                 embed.author.name = null;
                 bool = 0;
             };
-            if (click.customId == "author" + id) {
+            if (click.customId == "messagecontent") {
+                click.update({ content: "What would you like to set the message content to?", components: [] });
+                let response = await waitResponse(interaction.channel, wordFilter);
+                if (!response) return returnHome(interaction, buttons);
+                messageContent = response.content || null;
+                click.editReply({ embeds: [embed], content: " ", components: buttons });
+            } else if (click.customId == "author" + id) {
                 click.update({ content: "What would you like to set the author text to?", components: [] });
                 let response = await waitResponse(interaction.channel, wordFilter);
                 if (!response) return returnHome(interaction, buttons);
@@ -175,7 +187,7 @@ class betterDJS {
                 };
                 click.editReply({ embeds: [embed], content: " ", components: buttons });
             } else if (click.customId == "post" + id) {
-                channel.send({ embeds: [embed] });
+                (messageContent !== null) ? channel.send({ content: messageContent, embeds: [embed] }) : channel.send({ embeds: [embed] });
                 click.update({ embeds: [], components: [], content: "Embed Posted !" })
             } else if (click.customId == "fields" + id) {
                 let fieldButtons = await getFieldButtons(embed.fields, id);
