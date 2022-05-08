@@ -97,18 +97,19 @@ class betterDJS {
         let channel = interaction.channel;
         let back;
         collecter.on("collect", async function(click) {
-            if (bool == 1) {
-                embed.description = null,
-                embed.author.name = null;
-                bool = 0;
-            };
             if (click.customId == "messagecontent" + id) {
                 click.update({ content: "What would you like to set the message content to?", components: [] });
                 let response = await waitResponse(interaction.channel, wordFilter);
                 if (!response) return returnHome(interaction, buttons);
                 messageContent = response.content || null;
-                click.editReply({ embeds: [embed], content: " ", components: buttons });
-            } else if (click.customId == "author" + id) {
+                return click.editReply({ embeds: [embed], content: " ", components: buttons });
+            };
+            if (bool == 1) {
+                embed.description = null,
+                embed.author.name = null;
+                bool = 0;
+            };
+            if (click.customId == "author" + id) {
                 click.update({ content: "What would you like to set the author text to?", components: [] });
                 let response = await waitResponse(interaction.channel, wordFilter);
                 if (!response) return returnHome(interaction, buttons);
