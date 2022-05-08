@@ -102,7 +102,7 @@ class betterDJS {
                 embed.author.name = null;
                 bool = 0;
             };
-            if (click.customId == "messagecontent") {
+            if (click.customId == "messagecontent" + id) {
                 click.update({ content: "What would you like to set the message content to?", components: [] });
                 let response = await waitResponse(interaction.channel, wordFilter);
                 if (!response) return returnHome(interaction, buttons);
