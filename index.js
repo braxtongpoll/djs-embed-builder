@@ -3,9 +3,9 @@ class betterDJS {
     constructor(client) {
         this.client = client;
     };
-    async createEmbed(interaction) {
+    async createEmbed(interaction, preDefinedEmbed) {
         let bool = 1;
-        let embed = new MessageEmbed()
+        let embed = (preDefinedEmbed) ? preDefinedEmbed : new MessageEmbed()
             .setAuthor({ name: "Embed Builder" })
             .setDescription("Welcome to the interactive embed builder. Use the buttons below to build the embed, after click post!")
         let messageContent = null;
@@ -188,7 +188,10 @@ class betterDJS {
                 };
                 click.editReply({ embeds: [embed], content: " ", components: buttons });
             } else if (click.customId == "post" + id) {
-                (messageContent !== null) ? channel.send({ content: messageContent, embeds: [embed] }) : channel.send({ embeds: [embed] });
+                if (preDefinedEmbed) {
+                    interaction.channel.messages.edit(interaction.message.id, { embeds: [embed] })
+                    (messageContent !== null) ?  interaction.channel.messages.edit(interaction.message.id, { embeds: [embed], content: messageContent }) :  interaction.channel.messages.edit(interaction.message.id, { embeds: [embed] });
+                } else (messageContent !== null) ? channel.send({ content: messageContent, embeds: [embed] }) : channel.send({ embeds: [embed] });
                 click.update({ embeds: [], components: [], content: "Embed Posted !" })
             } else if (click.customId == "fields" + id) {
                 let fieldButtons = await getFieldButtons(embed.fields, id);
