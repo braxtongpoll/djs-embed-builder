@@ -104,7 +104,7 @@ class betterDJS {
                 messageContent = response.content || null;
                 return click.editReply({ embeds: [embed], content: " ", components: buttons });
             };
-            if (bool == 1) {
+            if (bool == 1 && !preDefinedEmbed) {
                 embed.description = null,
                 embed.author.name = null;
                 bool = 0;
@@ -188,11 +188,10 @@ class betterDJS {
                 };
                 click.editReply({ embeds: [embed], content: " ", components: buttons });
             } else if (click.customId == "post" + id) {
-                if (preDefinedEmbed) {
-                    interaction.channel.messages.edit(interaction.message.id, { embeds: [embed] })
-                    (messageContent !== null) ?  interaction.channel.messages.edit(interaction.message.id, { embeds: [embed], content: messageContent }) :  interaction.channel.messages.edit(interaction.message.id, { embeds: [embed] });
-                } else (messageContent !== null) ? channel.send({ content: messageContent, embeds: [embed] }) : channel.send({ embeds: [embed] });
                 click.update({ embeds: [], components: [], content: "Embed Posted !" })
+                if (preDefinedEmbed) {
+                    return (messageContent !== null) ?  interaction.channel.messages.edit(interaction.targetId, { embeds: [embed], content: messageContent }) :  interaction.channel.messages.edit(interaction.targetId, { embeds: [embed] });
+                } else return (messageContent !== null) ? channel.send({ content: messageContent, embeds: [embed] }) : channel.send({ embeds: [embed] });
             } else if (click.customId == "fields" + id) {
                 let fieldButtons = await getFieldButtons(embed.fields, id);
                 if (fieldButtons.length) {
