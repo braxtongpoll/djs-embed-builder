@@ -264,7 +264,7 @@ class betterDJS {
                         .setStyle("DANGER")
                     )
                 };
-                click.update({ components: [edits, new MessageActionRow().addComponents(new MessageButton().setCustomId("go-back").setStyle("SUCCESS").setLabel("Go Back"))] })
+                click.update({ components: [edits, new MessageActionRow().addComponents(new MessageButton().setCustomId("go-back" + id).setStyle("SUCCESS").setLabel("Go Back"))] })
                 back = "fields";
             } else if (click.customId.startsWith("field-") && click.customId.endsWith(id)) {
                 let check = click.customId.split("-")[1];
